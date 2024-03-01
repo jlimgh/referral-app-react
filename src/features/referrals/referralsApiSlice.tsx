@@ -4,10 +4,13 @@ import {
     EntityState,
 } from "@reduxjs/toolkit";
 import { apiSlice } from "../../app/api/apiSlice";
-import { Referral } from "../../models/Referral";
+import { ReferralProps } from "../../models/ReferralProps";
 import { RootState } from "../../app/store";
   
-const referralsAdapter = createEntityAdapter<any>({});
+const referralsAdapter = createEntityAdapter<any>({
+  sortComparer: (a, b) => (a.completed === b.completed) ? 0 : a.completed ? 1 : -1
+});
+
 
 const initialState = referralsAdapter.getInitialState();
 
@@ -16,9 +19,8 @@ export const referralsApiSlice = apiSlice.injectEndpoints({
     getReferrals: builder.query<any, void>({
       query: () => '/referrals',
       // removed validateStatus. to handle HTTP status validation, could use the baseQuery configuration's validateStatus function.
-      keepUnusedDataFor: 5,
       transformResponse: (responseData: any[]): any => {
-        const loadedReferrals = responseData.map((referral: Referral) => {
+        const loadedReferrals = responseData.map((referral: ReferralProps) => {
           referral.id = referral._id;
           return referral;
         })
@@ -34,11 +36,50 @@ export const referralsApiSlice = apiSlice.injectEndpoints({
         } else return [{ type: 'Referral', id: 'LIST' }];
       },
     }),
+    addNewReferral: builder.mutation({
+      query: initialReferralData => ({
+        url: '/referrals',
+        method: 'POST',
+        body: {
+          ...initialReferralData
+        }
+      }),
+      invalidatesTags: [
+        { type: 'Referral', id: 'LIST'}
+      ]
+    }),
+    updateReferral: builder.mutation({
+      query: initialReferralData => ({
+        url: '/referrals',
+        method: 'PATCH',
+        body: {
+          ...initialReferralData
+        }
+      }),
+      invalidatesTags: (_result, _error, arg) => [
+        { type: 'Referral', id: arg.id }
+      ]
+    }),
+    deleteReferral: builder.mutation({
+      query: ({ id }) => ({
+        url: '/referrals',
+        method: 'DELETE',
+        body: {
+          id
+        }
+      }),
+      invalidatesTags: (_result, _error, arg) => [
+        { type: 'Referral', id: arg.id }
+      ]
+    })
   }),
 });
 
 export const {
   useGetReferralsQuery,
+  useAddNewReferralMutation,
+  useUpdateReferralMutation,
+  useDeleteReferralMutation
 } = referralsApiSlice;
 
 // returns the query result object

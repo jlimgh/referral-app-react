@@ -14,31 +14,67 @@ const initialState = usersAdapter.getInitialState();
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getUsers: builder.query<any, void>({
-      query: () => '/users',
-      // removed validateStatus. to handle HTTP status validation, could use the baseQuery configuration's validateStatus function.
-      keepUnusedDataFor: 5,
-      transformResponse: (responseData: UserProps[]): any => {
-        const loadedUsers = responseData.map((user: UserProps) => {
-          user.id = user._id;
-          return user;
-        })
+        query: () => '/users',
+        // removed validateStatus. to handle HTTP status validation, could use the baseQuery configuration's validateStatus function.
+        transformResponse: (responseData: UserProps[]): any => {
+          const loadedUsers = responseData.map((user: UserProps) => {
+            user.id = user._id;
+            return user;
+          })
 
-        return usersAdapter.setAll(initialState, loadedUsers);
-      },
-      providesTags: (result: any) => {
-        if (result?.ids) {
-          return [
-            { type: 'User', id: 'LIST' },
-            ...result.ids.map((id: string) => ({ type: 'User' as const, id })),
-          ];
-        } else return [{ type: 'User', id: 'LIST' }];
-      },
+          return usersAdapter.setAll(initialState, loadedUsers);
+        },
+        providesTags: (result: any) => {
+          if (result?.ids) {
+            return [
+              { type: 'User', id: 'LIST' },
+              ...result.ids.map((id: string) => ({ type: 'User' as const, id })),
+            ];
+          } else return [{ type: 'User', id: 'LIST' }];
+        },
+      }),
+      addNewUser: builder.mutation({
+        query: initialUserData => ({
+            url: '/users',
+            method: 'POST',
+            body: {
+                ...initialUserData,
+            }
+        }),
+        invalidatesTags: [
+            { type: 'User', id: "LIST" }
+        ]
     }),
+    updateUser: builder.mutation({
+      query: iniitalUserData => ({
+          url: '/users',
+          method: 'PATCH',
+          body: {
+            ...iniitalUserData
+          }
+      }),
+      invalidatesTags: (_result, _error, arg) => [
+        { type: 'User', id: arg.id }
+      ]
+    }),
+    deleteUser: builder.mutation({
+      query: ({ id }) => ({
+        url: '/users',
+        method: 'DELETE',
+        body: { id }
+      }),
+      invalidatesTags: (_result, _error, arg) => [
+        { type: 'User', id: arg.id}
+      ]
+    })
   })
 });
 
 export const {
   useGetUsersQuery,
+  useAddNewUserMutation,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
 } = usersApiSlice;
 
 // returns the query result object

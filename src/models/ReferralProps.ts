@@ -4,5 +4,8 @@ export interface ReferralProps {
     user: string;
     title: string;
     text: string;
-    completed?: boolean
+    completed?: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    ticket: number
 }

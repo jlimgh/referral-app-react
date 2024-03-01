@@ -8,7 +8,11 @@ const ReferralsList = () => {
         isSuccess,
         isError,
         error
-    } = useGetReferralsQuery()
+    } = useGetReferralsQuery(undefined, {
+        pollingInterval: 15000,
+        refetchOnFocus: true,
+        refetchOnMountOrArgChange: true
+    })
 
     let content
 
@@ -37,7 +41,7 @@ const ReferralsList = () => {
             <table className="table table--referrals">
                 <thead className="table__thead">
                     <tr>
-                        <th scope="col" className="table__th referral__status">Username</th>
+                        <th scope="col" className="table__th referral__status">Status</th>
                         <th scope="col" className="table__th referral__created">Created</th>
                         <th scope="col" className="table__th referral__updated">Updated</th>
                         <th scope="col" className="table__th referral__title">Title</th>
