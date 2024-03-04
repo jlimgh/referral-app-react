@@ -18,17 +18,9 @@ const ReferralsList = () => {
 
     if (isLoading) content = <p>Loading...</p>
 
-    // if (isError) {
-    //     content = <p className="errmsg">{error?.data?.message}</p>
-    // }
-
-    if (isError && error) {
-        if ('status' in error) {
-          content = <p className="errmsg">{'error' in error ? error.error : JSON.stringify(error.data)}</p>
-        } else {
-          content = <div>{error.message}</div>
-        }
-      }
+    if (isError && error && 'data' in error) {
+        content = <p className="errmsg">{(error.data as {message: string}).message}</p>
+    }
 
     if (isSuccess) {
         const { ids } = referrals

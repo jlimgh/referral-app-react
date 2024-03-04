@@ -76,20 +76,10 @@ const EditReferralForm: React.FC<{referral: ReferralProps, users: UserProps[]}> 
   const validTextClass = !text ? "form__input--incomplete" : ''
 
   let errorMsg;
-    if (isError && error) {
-        console.log('inside isError && error: ', error);
-        if ('status' in error) {
-            errorMsg = 'error' in error ? error.error : JSON.stringify(error.data)
-        } else {
-            errorMsg = error.message;
-        }
-    } else if (isDelError && delerror) {
-        console.log('inside isDelError && delerror: ', delerror);
-        if ('status' in delerror) {
-            errorMsg = 'error' in delerror ? delerror.error : JSON.stringify(delerror.data)
-        } else {
-            errorMsg = delerror.message;
-        }
+    if (isError && error && 'data' in error) {
+        errorMsg = (error.data as { message: string }).message
+    } else if (isDelError && delerror && 'data' in delerror) {
+        errorMsg = (delerror.data as { message: string }).message
     }
 
 //   const errContent = (error?.data?.message || delerror?.data?.message) ?? ''

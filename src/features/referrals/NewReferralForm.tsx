@@ -56,12 +56,8 @@ const NewReferralForm: React.FC<{users: UserProps[]}> = ({users}) => {
     const validTextClass = !text ? "form__input--incomplete" : ''
 
     let errorMsg;
-    if (isError && error) {
-        if ('status' in error) {
-            errorMsg = 'error' in error ? error.error : JSON.stringify(error.data)
-        } else {
-            errorMsg = error.message;
-        }
+    if (isError && error && 'data' in error) {
+        errorMsg = (error.data as { message: string }).message
     }
 
     const content = (
