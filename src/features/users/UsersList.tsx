@@ -19,25 +19,14 @@ const UsersList = () => {
 
     if (isLoading) content = <p>Loading...</p>
 
-    // if (isError && 'status' in error) {
-    //     content = <p className="errmsg">{'error' in error ? error.error : JSON.stringify(error.data)}</p>
-    // } else {
-    //     content = <p className="errmsg">{error.message}</p>
-    // }
-
-
     if (isError && error && 'data' in error) {
           content = <p className="errmsg">{(error.data as {message: string}).message}</p>
     }
 
     if (isSuccess) {
-        console.log('users: ', users);
         const { ids } = users
-        // const ids = users?.map(user => user.id); 
 
-        const tableContent = ids?.length
-            ? ids.map((userId: string) => <User key={userId} userId={userId} />)
-            : null
+        const tableContent = ids?.length && ids.map((userId: string) => <User key={userId} userId={userId} />)
 
         content = (
             <table className="table table--users">

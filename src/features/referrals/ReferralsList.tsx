@@ -1,7 +1,11 @@
 import { useGetReferralsQuery } from "./referralsApiSlice"
 import Referral from "./Referral"
+import useAuth from "../../hooks/useAuth"
 
 const ReferralsList = () => {
+
+    const { username, isManager, isAdmin } = useAuth()
+
     const {
         data: referrals,
         isLoading,
@@ -23,11 +27,16 @@ const ReferralsList = () => {
     }
 
     if (isSuccess) {
-        const { ids } = referrals
+        const { ids, entities } = referrals
 
-        const tableContent = ids?.length
-            ? ids.map((referralId: string) => <Referral key={referralId} referralId={referralId} />)
-            : null
+        let filteredIds
+        if (isManager || isAdmin) {
+            filteredIds = [...ids]
+        } else {
+            filteredIds = ids.filter((referralId: string) => entities[referralId].username === username)
+        }
+
+        const tableContent = ids?.length && filteredIds.map((referralId: string) => <Referral key={referralId} referralId={referralId} />)
 
         content = (
             <table className="table table--referrals">

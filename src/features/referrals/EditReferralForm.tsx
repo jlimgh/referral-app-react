@@ -5,10 +5,11 @@ import { UserProps } from "../../models/UserProps"
 import { useDeleteReferralMutation, useUpdateReferralMutation } from "./referralsApiSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import useAuth from "../../hooks/useAuth"
 
 const EditReferralForm: React.FC<{referral: ReferralProps, users: UserProps[]}> = ({referral, users}) => {
-  console.log('referral: ', referral);
-  console.log('users: ', users);  
+
+  const { isManager, isAdmin } = useAuth()
 
   const [updateReferral, {
     isLoading,
@@ -82,7 +83,18 @@ const EditReferralForm: React.FC<{referral: ReferralProps, users: UserProps[]}> 
         errorMsg = (delerror.data as { message: string }).message
     }
 
-//   const errContent = (error?.data?.message || delerror?.data?.message) ?? ''
+  let deleteButton = null
+    if (isManager || isAdmin) {
+        deleteButton = (
+            <button
+                className="icon-button"
+                title="Delete"
+                onClick={onDeleteReferralClicked}
+            >
+                <FontAwesomeIcon icon={faTrashCan} />
+            </button>
+        )
+    }
 
   const content = (
     <>
@@ -100,13 +112,7 @@ const EditReferralForm: React.FC<{referral: ReferralProps, users: UserProps[]}> 
                     >
                         <FontAwesomeIcon icon={faSave} />
                     </button>
-                    <button
-                        className="icon-button"
-                        title="Delete"
-                        onClick={onDeleteReferralClicked}
-                    >
-                        <FontAwesomeIcon icon={faTrashCan} />
-                    </button>
+                    {deleteButton}
                 </div>
             </div>
             <label className="form__label" htmlFor="referral-title">

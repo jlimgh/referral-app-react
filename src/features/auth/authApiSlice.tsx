@@ -18,14 +18,12 @@ export const authApiSlice = apiSlice.injectEndpoints({
             }),
             async onQueryStarted( _arg, { dispatch, queryFulfilled }) {
                 try {
-                    const { data } = await queryFulfilled
-                    console.log(data)
+                    await queryFulfilled
                     dispatch(logOut())
-                    // to fix continued polling after logout. this is dispatched faster
+                    // to fix continued polling after logout. logout is dispatched faster than the reset
                     setTimeout(() => {
                         dispatch(apiSlice.util.resetApiState())
                     }, 1000)
-
                 } catch (err) {
                     console.log(err)
                 }
