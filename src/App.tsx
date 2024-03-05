@@ -12,6 +12,7 @@ import NewReferral from './features/referrals/NewReferral';
 import EditUser from './features/users/EditUser';
 import NewUserForm from './features/users/NewUserForm';
 import Prefetch from './features/auth/Prefetch';
+import PersistLogin from './features/auth/PersistLogin';
 
 function App() {
 
@@ -20,20 +21,22 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route index element={<Public />} />
         <Route path="login" element={<Login />} />
-        <Route element={<Prefetch />}>
-          <Route path='/dash' element={<DashLayout />}>
-            <Route index element={<Welcome />} />
-            <Route path="users">
-              <Route index element={<UsersList />} />
-              <Route path=":id" element={<EditUser />} />
-              <Route path="new" element={<NewUserForm />} />
-            </Route>
-            <Route path="referrals">
-              <Route index element={<ReferralsList />} />
-              <Route path=":id" element={<EditReferral />} />
-              <Route path="new" element={<NewReferral />} />
-            </Route>
-          </Route> {/* End Dash */}
+        <Route element={<PersistLogin />}>
+          <Route element={<Prefetch />}>
+            <Route path='/dash' element={<DashLayout />}>
+              <Route index element={<Welcome />} />
+              <Route path="users">
+                <Route index element={<UsersList />} />
+                <Route path=":id" element={<EditUser />} />
+                <Route path="new" element={<NewUserForm />} />
+              </Route>
+              <Route path="referrals">
+                <Route index element={<ReferralsList />} />
+                <Route path=":id" element={<EditReferral />} />
+                <Route path="new" element={<NewReferral />} />
+              </Route>
+            </Route> {/* End Dash */}
+          </Route>
         </Route>
       </Route>
     </Routes>
