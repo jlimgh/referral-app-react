@@ -16,8 +16,13 @@ const initialState = referralsAdapter.getInitialState();
 
 export const referralsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getReferrals: builder.query<any, void>({
-      query: () => '/referrals',
+      getReferrals: builder.query<any, void>({
+        query: () => ({
+          url: '/referrals',
+          validateStatus: (response, result) => {
+              return response.status === 200 && !result.isError
+          },
+      }),
       // removed validateStatus. to handle HTTP status validation, could use the baseQuery configuration's validateStatus function.
       transformResponse: (responseData: ReferralProps[]): any => {
         const loadedReferrals = responseData.map((referral: ReferralProps) => {

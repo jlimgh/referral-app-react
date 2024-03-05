@@ -13,7 +13,7 @@ import EditUser from './features/users/EditUser';
 import NewUserForm from './features/users/NewUserForm';
 import Prefetch from './features/auth/Prefetch';
 import PersistLogin from './features/auth/PersistLogin';
-import RequireAuth from './features/auth/RequreAuth';
+import RequireAuth from './features/auth/RequireAuth';
 import { ROLES } from './config/roles';
 
 function App() {

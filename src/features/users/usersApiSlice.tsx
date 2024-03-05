@@ -14,8 +14,12 @@ const initialState = usersAdapter.getInitialState();
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getUsers: builder.query<any, void>({
-        query: () => '/users',
-        // removed validateStatus. to handle HTTP status validation, could use the baseQuery configuration's validateStatus function.
+        query: () => ({
+            url: '/users',
+            validateStatus: (response, result) => {
+                return response.status === 200 && !result.isError
+            },
+        }),
         transformResponse: (responseData: UserProps[]): any => {
           const loadedUsers = responseData.map((user: UserProps) => {
             user.id = user._id;
