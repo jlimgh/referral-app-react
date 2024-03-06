@@ -4,12 +4,13 @@ import { useNavigate } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSave } from "@fortawesome/free-solid-svg-icons"
 import { ROLES } from "../../config/roles"
+import useTitle from "../../hooks/useTitle"
 
 const USER_REGEX = /^[A-z]{3,20}$/
 const PWD_REGEX = /^[A-z0-9!@#$%]{4,12}$/
 
 const NewUserForm = () => {
-
+    useTitle('Referral Management: New User')
     const [addNewUser, {
         isLoading,
         isSuccess,
@@ -89,7 +90,7 @@ const NewUserForm = () => {
     const content = (
         <>
             <p className={errClass}>{errorMsg}</p>
-            
+
             <form className="form" onSubmit={onSaveUserClicked}>
                 <div className="form__title-row">
                     <h2>New User</h2>

@@ -4,8 +4,11 @@ import { useGetReferralsQuery } from './referralsApiSlice'
 import { useGetUsersQuery } from '../users/usersApiSlice'
 import useAuth from '../../hooks/useAuth'
 import PulseLoader from 'react-spinners/PulseLoader'
+import useTitle from '../../hooks/useTitle'
 
 const EditReferral = () => {
+    useTitle('Referral Dashboard: Edit Referral')
+
     const { id } = useParams();
 
     const { username, isManager, isAdmin } = useAuth()
