@@ -2,13 +2,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons"
 import { useNavigate } from 'react-router-dom'
 
-import { useSelector } from 'react-redux'
-import { selectReferralById } from './referralsApiSlice'
-import { RootState } from '../../app/store'
+import { useGetReferralsQuery } from './referralsApiSlice'
+import { memo } from 'react'
 
 const Referral = (props: {referralId: string}) => {
 
-    const referral = useSelector((state: RootState) => selectReferralById(state, props.referralId))
+    const { referral } = useGetReferralsQuery("referralsList", {
+        selectFromResult: ({ data }) => ({
+            referral: data?.entities[props.referralId]
+        }),
+    })
 
     const navigate = useNavigate()
 
@@ -45,4 +48,7 @@ const Referral = (props: {referralId: string}) => {
 
     } else return null
 }
-export default Referral
+
+const memoizedReferral = memo(Referral)
+
+export default memoizedReferral

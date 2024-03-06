@@ -1,12 +1,17 @@
-import { useSelector } from "react-redux"
-import { selectAllUsers } from "../users/usersApiSlice"
-import { UserProps } from "../../models/UserProps"
 import NewReferralForm from "./NewReferralForm"
+import { useGetUsersQuery } from '../users/usersApiSlice'
+import PulseLoader from 'react-spinners/PulseLoader'
 
 const NewReferral = () => {
-    const users = useSelector(selectAllUsers) as UserProps[]
+    const { users } = useGetUsersQuery("usersList", {
+        selectFromResult: ({ data }) => ({
+            users: data?.ids.map((id: string) => data?.entities[id])
+        }),
+    })
 
-    const content = users ? <NewReferralForm users={users} /> : <p>Loading...</p>
+    if (!users?.length) return <PulseLoader color={"#FFF"} />
+
+    const content = <NewReferralForm users={users} />
 
     return content
 }

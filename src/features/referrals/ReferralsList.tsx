@@ -1,6 +1,7 @@
 import { useGetReferralsQuery } from "./referralsApiSlice"
 import Referral from "./Referral"
 import useAuth from "../../hooks/useAuth"
+import PulseLoader from 'react-spinners/PulseLoader'
 
 const ReferralsList = () => {
 
@@ -12,7 +13,7 @@ const ReferralsList = () => {
         isSuccess,
         isError,
         error
-    } = useGetReferralsQuery(undefined, {
+    } = useGetReferralsQuery('referralsList', {
         pollingInterval: 15000,
         refetchOnFocus: true,
         refetchOnMountOrArgChange: true
@@ -20,7 +21,7 @@ const ReferralsList = () => {
 
     let content
 
-    if (isLoading) content = <p>Loading...</p>
+    if (isLoading) content = <PulseLoader color={"#FFF"} />
 
     if (isError && error && 'data' in error) {
         content = <p className="errmsg">{(error.data as {message: string}).message}</p>

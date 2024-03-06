@@ -16,7 +16,7 @@ const initialState = referralsAdapter.getInitialState();
 
 export const referralsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-      getReferrals: builder.query<any, void>({
+      getReferrals: builder.query<any, any>({
         query: () => ({
           url: '/referrals',
           validateStatus: (response, result) => {
@@ -88,7 +88,7 @@ export const {
 } = referralsApiSlice;
 
 // returns the query result object
-export const selectReferralsResult = referralsApiSlice.endpoints.getReferrals.select();
+export const selectReferralsResult = referralsApiSlice.endpoints.getReferrals.select({});
 
 // creates memoized selector
 const selectReferralsData = createSelector(
