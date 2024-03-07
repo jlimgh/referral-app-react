@@ -3,7 +3,7 @@ import { RootState } from '../store'
 import { setCredentials } from '../../features/auth/authSlice'
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'https://referrals-app-api.onrender.com',
+    baseUrl: process.env.BASE_URL,
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
         const token = (getState() as RootState).auth.token
