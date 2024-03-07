@@ -3,11 +3,10 @@ import { RootState } from '../store'
 import { setCredentials } from '../../features/auth/authSlice'
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: process.env.BASE_URL,
+    baseUrl: import.meta.env.VITE_BASE_URL,
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
         const token = (getState() as RootState).auth.token
-        console.log('token: ', token);
         if (token) {
             headers.set("authorization", `Bearer ${token}`)
         }
@@ -21,11 +20,9 @@ const baseQueryWithReauth = async (args: string | FetchArgs, api: BaseQueryApi, 
     // console.log(extraOptions) //custom like {shout: true}
 
     let result = await baseQuery(args, api, extraOptions)
-    console.log('result: ', result);
 
     // If you want, handle other status codes, too
     if (result?.error?.status === 403) {
-        console.log('sending refresh token')
 
         // send refresh token to get new access token 
         const refreshResult = await baseQuery('/auth/refresh', api, extraOptions)
