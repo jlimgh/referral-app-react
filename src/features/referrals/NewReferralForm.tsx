@@ -6,7 +6,6 @@ import { faSave } from "@fortawesome/free-solid-svg-icons"
 import { UserProps } from "../../models/UserProps"
 
 const NewReferralForm: React.FC<{users: UserProps[]}> = ({users}) => {
-    console.log('users: ', users);
     const [addNewReferral, {
         isLoading,
         isSuccess,

@@ -10,6 +10,7 @@ import {
 import { useNavigate, Link, useLocation } from 'react-router-dom'
 import { useSendLogoutMutation } from '../features/auth/authApiSlice'
 import useAuth from '../hooks/useAuth'
+import PulseLoader from 'react-spinners/PulseLoader'
 
 const DASH_REGEX = /^\/dash(\/)?$/
 const REFERRALS_REGEX = /^\/dash\/referrals(\/)?$/
@@ -30,7 +31,6 @@ const DashHeader = () => {
     /* useEffect isSuccess NOT triggering in after successful logout - currently using `logoutHandler` as a workaround */
     useEffect(() => {
         if (isSuccess) {
-            console.log('useEffect isSuccess hit after logout')
             navigate('/')
         }
     }, [isSuccess, navigate])
@@ -50,8 +50,7 @@ const DashHeader = () => {
     const onUsersClicked = () => navigate('/dash/users')
 
     if (isLoading) {
-        console.log('is loading hit in header logout')
-        return <p>Logging Out...</p>
+        return <PulseLoader color={"#FFF"} />
     }
 
     if (isError && error && 'data' in error) {

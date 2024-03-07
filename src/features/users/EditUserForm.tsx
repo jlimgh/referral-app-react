@@ -41,7 +41,6 @@ const EditUserForm: React.FC<{ user: UserProps }> = ({user}) => {
     }, [password])
 
     useEffect(() => {
-        console.log(isSuccess)
         if (isSuccess || isDelSuccess) {
             setUsername('')
             setPassword('')
@@ -92,10 +91,6 @@ const EditUserForm: React.FC<{ user: UserProps }> = ({user}) => {
     } else {
         canSave = [roles.length, validUsername].every(Boolean) && !isLoading
     }
-
-    console.log('roles.length: ', roles.length);
-    console.log('validUsername: ', validUsername);
-    console.log('validPassword: ', validPassword);
 
     const errClass = (isError || isDelError) ? "errmsg" : "offscreen"
     const validUserClass = !validUsername ? 'form__input--incomplete' : ''
