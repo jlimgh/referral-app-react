@@ -1,15 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap'); */
+/* 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* || VARIABLES */
 
 :root {
-  /* COLORS */
   --BGCOLOR: #0F172A;
   --BORDER-COLOR: #FFF;
   --COLOR: #FFF;
@@ -24,7 +25,7 @@
   --TABLE-COLOR: #000;
 }
 
-/* || UTILITY CLASSES */
+
 .errmsg {
   display: inline-block;
   background-color: var(--TABLE-BGCOLOR);
@@ -62,10 +63,13 @@
   visibility: hidden;
 }
 
-/* || GENERAL STYLES */
+
+
 
 body {
-  font-family: 'Nunito', sans-serif;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-style: normal;
   min-height: 100vh;
   background-color: var(--BGCOLOR);
   color: var(--COLOR);
@@ -79,7 +83,6 @@ select {
 }
 
 #root {
-  /* React root div */
   min-height: 100vh;
   display: flex;
   flex-flow: column nowrap;
@@ -99,7 +102,7 @@ a:focus-visible {
   color: var(--LINK-HOVER);
 }
 
-/* || PAGES */
+
 
 .public,
 .welcome {
@@ -129,7 +132,7 @@ a:focus-visible {
   content: "➜ "
 }
 
-/* || DASH HEADER, CONTAINER & FOOTER */
+
 
 .dash-header {
   position: sticky;
@@ -179,7 +182,7 @@ a:focus-visible {
   height: auto;
 }
 
-/* || TABLES - GENERAL */
+
 
 thead,
 tbody,
@@ -225,7 +228,7 @@ tr {
   background-color: var(--INACTIVE);
 }
 
-/* ||  REFERRAL */
+
 
 .referral__created,
 .referral__updated,
@@ -246,7 +249,7 @@ tr {
 }
 
 
-/* || FORM - GENERAL */
+
 
 .form {
   display: flex;
@@ -367,4 +370,4 @@ tr {
   .form__action-buttons {
     position: static;
   }
-}
+} */

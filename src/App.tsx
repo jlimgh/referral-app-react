@@ -16,8 +16,15 @@ import PersistLogin from './features/auth/PersistLogin';
 import RequireAuth from './features/auth/RequireAuth';
 import { ROLES } from './config/roles';
 import useTitle from './hooks/useTitle';
+import { initFlowbite } from 'flowbite'
+import { useEffect } from "react";
 
 function App() {
+  
+  useEffect(() => {
+    initFlowbite();
+  }, []);
+
   useTitle('Referral App')
 
   return (

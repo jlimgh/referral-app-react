@@ -91,8 +91,8 @@ const NewUserForm = () => {
         <>
             <p className={errClass}>{errorMsg}</p>
 
-            <form className="form" onSubmit={onSaveUserClicked}>
-                <div className="form__title-row">
+            <form className="max-w-sm mx-auto" onSubmit={onSaveUserClicked}>
+                {/* <div className="form__title-row">
                     <h2>New User</h2>
                     <div className="form__action-buttons">
                         <button
@@ -103,44 +103,57 @@ const NewUserForm = () => {
                             <FontAwesomeIcon icon={faSave} />
                         </button>
                     </div>
+                </div> */}
+
+                <p className="text-lg text-center pb-4">New User</p>
+                <div className="mb-5">
+                    <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Username: <span className="nowrap">[3-20 letters]</span>
+                    </label>
+                    <input
+                        className={`${validUserClass} bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+                        id="username"
+                        name="username"
+                        type="text"
+                        autoComplete="off"
+                        value={username}
+                        onChange={onUsernameChanged}
+                    />
                 </div>
-                <label className="form__label" htmlFor="username">
-                    Username: <span className="nowrap">[3-20 letters]</span></label>
-                <input
-                    className={`form__input ${validUserClass}`}
-                    id="username"
-                    name="username"
-                    type="text"
-                    autoComplete="off"
-                    value={username}
-                    onChange={onUsernameChanged}
-                />
+                <div className="mb-5">
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="password">
+                        Password: <span className="nowrap">[4-12 chars incl. !@#$%]</span></label>
+                    <input
+                        className={`${validPwdClass} bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+                        id="password"
+                        name="password"
+                        type="password"
+                        value={password}
+                        onChange={onPasswordChanged}
+                    />
+                </div>
+                <div className="mb-5">
+                    <label htmlFor="roles" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select assigned roles:</label>
+                    <select 
+                        id="roles"
+                        name="roles"
+                        multiple={true}
+                        size={3}
+                        value={roles}
+                        onChange={onRolesChanged}
+                        className={`${validRolesClass} bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+                    >
+                        {options}
+                    </select>
+                </div>
 
-                <label className="form__label" htmlFor="password">
-                    Password: <span className="nowrap">[4-12 chars incl. !@#$%]</span></label>
-                <input
-                    className={`form__input ${validPwdClass}`}
-                    id="password"
-                    name="password"
-                    type="password"
-                    value={password}
-                    onChange={onPasswordChanged}
-                />
-
-                <label className="form__label" htmlFor="roles">
-                    ASSIGNED ROLES:</label>
-                <select
-                    id="roles"
-                    name="roles"
-                    className={`form__select ${validRolesClass}`}
-                    multiple={true}
-                    size={3}
-                    value={roles}
-                    onChange={onRolesChanged}
+                <button 
+                    type="submit" 
+                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    disabled={!canSave}
                 >
-                    {options}
-                </select>
-
+                        Add User
+                </button>
             </form>
         </>
     )
