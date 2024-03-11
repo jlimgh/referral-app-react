@@ -63,8 +63,6 @@ const Login = () => {
         <section className="max-w-sm mx-auto">
             <div className="fixed top-6"><Link to="/">Back to Home</Link></div>
             <main className="h-screen flex items-center pb-10">
-                <p ref={errRef} className={errClass} aria-live="assertive">{errMsg}</p>
-
                 <form className="grow" onSubmit={handleSubmit}>
                     <p className="text-lg text-center">Login</p>
                     <div className="mb-5">
@@ -104,6 +102,8 @@ const Login = () => {
                         <label htmlFor="persist" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Trust This Device</label>
                     </div>
                     <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Sign in</button>
+
+                    <div ref={errRef} className={`${errClass} pt-4 text-red-600`} aria-live="assertive">{errMsg}</div>
             
                 </form>
             </main>

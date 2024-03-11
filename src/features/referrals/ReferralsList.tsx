@@ -42,21 +42,26 @@ const ReferralsList = () => {
         const tableContent = ids?.length && filteredIds.map((referralId: string) => <Referral key={referralId} referralId={referralId} />)
 
         content = (
-            <table className="table table--referrals">
-                <thead className="table__thead">
-                    <tr>
-                        <th scope="col" className="table__th referral__status">Status</th>
-                        <th scope="col" className="table__th referral__created">Created</th>
-                        <th scope="col" className="table__th referral__updated">Updated</th>
-                        <th scope="col" className="table__th referral__title">Title</th>
-                        <th scope="col" className="table__th referral__username">Owner</th>
-                        <th scope="col" className="table__th referral__edit">Edit</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {tableContent}
-                </tbody>
-            </table>
+            <>
+                <h1 className="text-lg mb-5">Referral List</h1>
+                <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" className="px-6 py-3">Status</th>
+                                <th scope="col" className="px-6 py-3">Created</th>
+                                <th scope="col" className="px-6 py-3">Updated</th>
+                                <th scope="col" className="px-6 py-3">Title</th>
+                                <th scope="col" className="px-6 py-3">Owner</th>
+                                <th scope="col" className="px-6 py-3">Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {tableContent}
+                        </tbody>
+                    </table>
+                </div>
+            </>
         )
     }
 

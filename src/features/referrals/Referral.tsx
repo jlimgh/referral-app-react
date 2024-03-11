@@ -23,25 +23,20 @@ const Referral = (props: {referralId: string}) => {
         const handleEdit = () => navigate(`/dash/referrals/${props.referralId}`)
 
         return (
-            <tr className="table__row">
-                <td className="table__cell referral__status">
+            <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {referral.completed
                         ? <span className="referral__status--completed">Completed</span>
                         : <span className="referral__status--open">Open</span>
                     }
-                </td>
-                <td className="table__cell referral__created">{created}</td>
-                <td className="table__cell referral__updated">{updated}</td>
-                <td className="table__cell referral__title">{referral.title}</td>
-                <td className="table__cell referral__username">{referral.username}</td>
-
-                <td className="table__cell">
-                    <button
-                        className="icon-button table__button"
-                        onClick={handleEdit}
-                    >
-                        <FontAwesomeIcon icon={faPenToSquare} />
-                    </button>
+                </th>
+                <td className="px-6 py-4">{created}</td>
+                <td className="px-6 py-4">{updated}</td>
+                <td className="px-6 py-4">{referral.title}</td>
+                <td className="px-6 py-4">{referral.username}</td>
+                <td className="px-6 py-4">
+                    <span className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer"
+                          onClick={handleEdit}>Edit</span>
                 </td>
             </tr>
         )

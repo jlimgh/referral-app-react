@@ -23,16 +23,16 @@ const User = (props: {userId: string}) => {
         const cellStatus = user.active ? '' : 'table__cell--inactive'
 
         return (
-            <tr className="table__row user">
-                <td className={`table__cell ${cellStatus}`}>{user.username}</td>
-                <td className={`table__cell ${cellStatus}`}>{userRolesString}</td>
-                <td className={`table__cell ${cellStatus}`}>
-                    <button
-                        className="icon-button table__button"
-                        onClick={handleEdit}
-                    >
-                        <FontAwesomeIcon icon={faPenToSquare} />
-                    </button>
+            <tr className={`${cellStatus} bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600`}>
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {user.username}
+                </th>
+                <td className={`${cellStatus} px-6 py-4`}>
+                    {userRolesString}
+                </td>
+                <td className="px-6 py-4 text-right">
+                    <span className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer" 
+                       onClick={handleEdit}>Edit</span>
                 </td>
             </tr>
         )
