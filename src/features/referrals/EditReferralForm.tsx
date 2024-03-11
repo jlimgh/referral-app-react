@@ -101,7 +101,7 @@ const EditReferralForm: React.FC<{referral: ReferralProps, users: UserProps[]}> 
     <>
         <p className={errClass}>{errorMsg}</p>
 
-        <form className="max-w-sm mx-auto" onSubmit={e => e.preventDefault()}>
+        <form className="max-w-sm mx-auto pt-12" onSubmit={e => e.preventDefault()}>
             <p className="text-lg text-center pb-4">Edit Referral #{referral.ticket}</p>
             <div className="mb-7">
                 <p className="text-xs text-gray-700 dark:text-white">

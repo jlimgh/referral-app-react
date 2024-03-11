@@ -60,8 +60,8 @@ const NewReferralForm: React.FC<{users: UserProps[], currentUserId: string}> = (
     const content = (
         <>
             <p className={errClass}>{errorMsg}</p>
-
-            <form className="max-w-sm mx-auto" onSubmit={onSaveReferralClicked}>
+            
+            <form className="max-w-sm mx-auto pt-12" onSubmit={onSaveReferralClicked}>
                 <p className="text-lg text-center pb-4">New Referral</p>
                 <div className="mb-5">
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="title">

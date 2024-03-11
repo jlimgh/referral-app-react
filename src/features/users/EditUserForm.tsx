@@ -118,7 +118,7 @@ const EditUserForm: React.FC<{ user: UserProps }> = ({user}) => {
         <>
             <p className={errClass}>{errorMsg}</p>
 
-            <form className="max-w-sm mx-auto" onSubmit={e => e.preventDefault()}>
+            <form className="max-w-sm mx-auto pt-12" onSubmit={e => e.preventDefault()}>
                 <div className="form__title-row">
                     <h2 className="text-lg text-center pb-4">Edit User</h2>
                     {/* <div className="form__action-buttons">

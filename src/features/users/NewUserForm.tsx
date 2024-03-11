@@ -91,7 +91,7 @@ const NewUserForm = () => {
         <>
             <p className={errClass}>{errorMsg}</p>
 
-            <form className="max-w-sm mx-auto" onSubmit={onSaveUserClicked}>
+            <form className="max-w-sm mx-auto pt-12" onSubmit={onSaveUserClicked}>
                 <p className="text-lg text-center pb-4">New User</p>
                 <div className="mb-5">
                     <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

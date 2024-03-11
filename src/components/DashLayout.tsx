@@ -1,27 +1,92 @@
-import { Link, Outlet, NavLink } from "react-router-dom"
+import { Outlet, NavLink } from "react-router-dom"
 import DashHeader from "./DashHeader"
 import DashFooter from "./DashFooter"
 import useAuth from "../hooks/useAuth"
 import { initFlowbite } from 'flowbite'
 import { useEffect } from "react";
+import { useNavigate } from 'react-router-dom'
+import { useSendLogoutMutation } from "../features/auth/authApiSlice"
+import PulseLoader from 'react-spinners/PulseLoader'
 
 const DashLayout = () => {
+    const { username, isManager, isAdmin } = useAuth();
+    
+    const navigate = useNavigate()
+
+    const [sendLogout, {
+        isLoading,
+        isSuccess,
+        isError,
+        error
+    }] = useSendLogoutMutation()
 
     useEffect(() => {
         initFlowbite();
       }, []);
 
-    const { username, isManager, isAdmin } = useAuth();
+      /* useEffect isSuccess NOT triggering in after successful logout - currently using `logoutHandler` as a workaround */
+      useEffect(() => {
+        if (isSuccess) {
+            navigate('/')
+        }
+    }, [isSuccess, navigate])
+
+    const logOutHandler = async () => {
+        try {
+          await sendLogout({}).unwrap();
+          navigate("/");
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+    if (isLoading) {
+        return <PulseLoader color={"#FFF"} />
+    }
+
+    if (isError && error && 'data' in error) {
+        return <p>Error: {JSON.stringify(error?.data)}</p>
+    }
+
+    const logoutButton = (
+
+        <button 
+            title="Logout"
+            onClick={logOutHandler}
+            className="flex items-center py-2 px-4 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-red-100 dark:hover:bg-red-700 dark:text-white group"
+        >
+                Log out
+        </button>
+    )
+
+    const errClass = isError ? "errmsg" : "offscreen"
+    let errMsg;
+    if (isError && error && 'data' in error) {
+        errMsg = (error.data as {message: string}).message;
+    }
+
+    let logOutContent
+    if (isLoading) {
+        logOutContent = <p>Logging Out...</p>
+    } else {
+        logOutContent = (
+            <>
+                {logoutButton}
+            </>
+        )
+    }
 
     return (
         <>
-        <header className="sticky top-0 z-50">
+        {/* <header className="sticky top-0 z-50">
             <nav className="bg-slate-100 border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800 ml-64">
                 <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-                    <a href="https://flowbite.com" className="flex items-center">
-                        <img src="https://flowbite.com/docs/images/logo.svg" className="mr-3 h-6 sm:h-9" alt="Flowbite Logo" />
-                        <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
-                    </a>
+                    <Link to="/dash">
+                        <a className="flex items-center">
+                            <img src="https://flowbite.com/docs/images/logo.svg" className="mr-3 h-6 sm:h-9" alt="Flowbite Logo" />
+                            <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+                        </a>
+                    </Link>
                     <div className="flex items-center lg:order-2">
                         <a href="#" className="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log in</a>
                         <a href="#" className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Get started</a>
@@ -40,9 +105,9 @@ const DashLayout = () => {
                     </div>
                 </div>
             </nav>
-        </header>
-
-        <div className="dash-container">
+        </header> */}
+        <p className={errClass}>{errMsg}</p>
+  
             <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button" className="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
                 <span className="sr-only">Open sidebar</span>
                 <svg className="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -131,23 +196,15 @@ const DashLayout = () => {
                 </div>
                 <div className="hidden absolute bottom-0 left-0 justify-center p-4 space-x-4 w-full lg:flex bg-white dark:bg-gray-800 z-20 border-r border-gray-200 dark:border-gray-700">
                     <div className="content-center">
-                        <Link to="/dash/referrals">
-                            <span className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
-                                <span className="ml-3">Sign out</span>
-                            </span>
-                        </Link>
+                        {logOutContent}
                     </div>
                 </div>
             </aside>
-            <main className="sm:ml-72 sm:mr-6">
-                <div className="h-90v overflow-auto pt-6">
-                    <Outlet />
-                </div>
+            <main className="sm:ml-72 sm:mr-6 sm:mt-10">
+                <Outlet />
             </main>
-        </div>
+
         </>
-
-
 
     )
 }
