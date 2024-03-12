@@ -25,6 +25,7 @@ const EditReferralForm: React.FC<{referral: ReferralProps, users: UserProps[]}> 
 
   const [title, setTitle] = useState(referral.title)
   const [text, setText] = useState(referral.text)
+  const [notes, setNotes] = useState(referral.notes ? referral.notes : '')
   const [completed, setCompleted] = useState(referral.completed)
   const [userId, setUserId] = useState(referral.user)
 
@@ -33,6 +34,7 @@ const EditReferralForm: React.FC<{referral: ReferralProps, users: UserProps[]}> 
     if (isSuccess || isDelSuccess) {
         setTitle('')
         setText('')
+        setNotes('')
         setUserId('')
         navigate('/dash/referrals')
     }
@@ -41,6 +43,7 @@ const EditReferralForm: React.FC<{referral: ReferralProps, users: UserProps[]}> 
 
   const onTitleChanged = (e: { target: { value: SetStateAction<string>; }; }) => setTitle(e.target.value)
   const onTextChanged = (e: { target: { value: SetStateAction<string>; }; }) => setText(e.target.value)
+  const onNotesChanged = (e: { target: { value: SetStateAction<string>; }; }) => setNotes(e.target.value)
   const onCompletedChanged = () => setCompleted(prev => !prev)
   const onUserIdChanged = (e: { target: { value: SetStateAction<string>; }; }) => setUserId(e.target.value)
 
@@ -48,7 +51,7 @@ const EditReferralForm: React.FC<{referral: ReferralProps, users: UserProps[]}> 
 
   const onSaveReferralClicked = async () => {
     if (canSave) {
-        await updateReferral({ id: referral.id, user: userId, title, text, completed })
+        await updateReferral({ id: referral.id, user: userId, title, text, completed, notes })
     }
   }
 
@@ -82,6 +85,7 @@ const EditReferralForm: React.FC<{referral: ReferralProps, users: UserProps[]}> 
 
   let deleteButton = null
   let btnPosition = null
+  let notesContent = null
     if (isManager || isAdmin) {
         btnPosition = 'justify-between'
         deleteButton = (
@@ -93,15 +97,38 @@ const EditReferralForm: React.FC<{referral: ReferralProps, users: UserProps[]}> 
                     Delete
             </button>
         )
+        notesContent = (
+            <div className="mb-5">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="referral-notes">
+                    Notes:</label>
+                <textarea
+                    className={`${validTextClass} bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+                    id="referral-notes"
+                    name="notes"
+                    rows={4}
+                    value={notes}
+                    onChange={onNotesChanged}
+                />
+            </div>
+        )
     } else {
         btnPosition = 'justify-end'
+        notesContent = (
+            <div className="mb-5">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="referral-notes">
+                    Notes:</label>
+                <div>
+                    {notes}
+                </div>
+            </div>
+        )
     }
 
   const content = (
     <>
         <p className={errClass}>{errorMsg}</p>
 
-        <form className="max-w-sm mx-auto pt-12" onSubmit={e => e.preventDefault()}>
+        <form className="max-w-sm mx-auto pt-3" onSubmit={e => e.preventDefault()}>
             <p className="text-lg text-center pb-4">Edit Referral #{referral.ticket}</p>
             <div className="mb-7">
                 <p className="text-xs text-gray-700 dark:text-white">
@@ -129,10 +156,14 @@ const EditReferralForm: React.FC<{referral: ReferralProps, users: UserProps[]}> 
                     className={`${validTextClass} bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
                     id="referral-text"
                     name="text"
+                    rows={4}
                     value={text}
                     onChange={onTextChanged}
                 />
             </div>
+
+            {notesContent}
+
             <div className="mb-5">
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="referral-username">
                     Referred by:</label>
