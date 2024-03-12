@@ -1,7 +1,7 @@
 import useAuth from '../hooks/useAuth'
 
 const DashHeader = () => {
-    const { username, status, isManager, isAdmin } = useAuth()
+    const { username, status } = useAuth()
     
     const content = (
         <>
