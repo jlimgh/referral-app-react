@@ -7,9 +7,9 @@ const DashHeader = () => {
         <>
             <div className="space-y-2">
                 <div className="profile-content">
-                    <div>{username}</div>
-                    <div>{new Date().toLocaleDateString()}</div>
-                    <div>Status: {status}</div>
+                    <p>{username}</p>
+                    <p>{new Date().toLocaleDateString()}</p>
+                    <p>Status: {status}</p>
                 </div>
             </div>
         </>

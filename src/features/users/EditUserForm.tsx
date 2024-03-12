@@ -118,26 +118,9 @@ const EditUserForm: React.FC<{ user: UserProps }> = ({user}) => {
         <>
             <p className={errClass}>{errorMsg}</p>
 
-            <form className="max-w-sm mx-auto pt-12" onSubmit={e => e.preventDefault()}>
+            <form className="max-w-sm mx-auto pt-8" onSubmit={e => e.preventDefault()}>
                 <div className="form__title-row">
                     <h2 className="text-lg text-center pb-4">Edit User</h2>
-                    {/* <div className="form__action-buttons">
-                        <button
-                            className="icon-button"
-                            title="Save"
-                            onClick={onSaveUserClicked}
-                            disabled={!canSave}
-                        >
-                            <FontAwesomeIcon icon={faSave} />
-                        </button>
-                        <button
-                            className="icon-button"
-                            title="Delete"
-                            onClick={onDeleteUserClicked}
-                        >
-                            <FontAwesomeIcon icon={faTrashCan} />
-                        </button>
-                    </div> */}
                 </div>
                 <div className="mb-5">
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="username">

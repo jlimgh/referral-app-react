@@ -61,7 +61,7 @@ const NewReferralForm: React.FC<{users: UserProps[], currentUserId: string}> = (
         <>
             <p className={errClass}>{errorMsg}</p>
             
-            <form className="max-w-sm mx-auto pt-12" onSubmit={onSaveReferralClicked}>
+            <form className="max-w-sm mx-auto pt-8" onSubmit={onSaveReferralClicked}>
                 <p className="text-lg text-center pb-4">New Referral</p>
                 <div className="mb-5">
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="title">
@@ -83,6 +83,7 @@ const NewReferralForm: React.FC<{users: UserProps[], currentUserId: string}> = (
                         className={`${validTextClass} bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
                         id="text"
                         name="text"
+                        rows={4}
                         value={text}
                         onChange={onTextChanged}
                     />
