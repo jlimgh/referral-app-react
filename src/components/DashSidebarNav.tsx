@@ -8,7 +8,7 @@ import { useSendLogoutMutation } from "../features/auth/authApiSlice"
 import PulseLoader from 'react-spinners/PulseLoader'
 
 const DashSidebarNav = () => {
-    const { username, isManager, isAdmin } = useAuth();
+    const { isManager, isAdmin } = useAuth();
     
     const navigate = useNavigate()
 
