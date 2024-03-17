@@ -10,9 +10,13 @@ import { RootState } from "../../app/store";
 const referralsAdapter = createEntityAdapter<any>({
   sortComparer: (a, b) => (a.completed === b.completed) ? 0 : a.completed ? 1 : -1
 });
+const userReferralsAdapter = createEntityAdapter<any>({
+  sortComparer: (a, b) => (a.completed === b.completed) ? 0 : a.completed ? 1 : -1
+});
 
 
-const initialState = referralsAdapter.getInitialState();
+const initialState = referralsAdapter.getInitialState()
+const initialUserReferralsState = userReferralsAdapter.getInitialState()
 
 export const referralsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -41,6 +45,38 @@ export const referralsApiSlice = apiSlice.injectEndpoints({
         } else return [{ type: 'Referral', id: 'LIST' }];
       },
     }),
+    getReferralsByUser: builder.query({
+      query: (userId) => {
+          return {
+              url: `/referrals/user/${userId}`,
+              method: 'GET'
+          }
+      },
+      transformResponse: (responseData: ReferralProps[]): any => {
+        const loadedReferrals = responseData.map((referral: ReferralProps) => {
+          referral.id = referral._id;
+          return referral;
+        })
+        console.log('loaded referrals: ', loadedReferrals);
+        return userReferralsAdapter.setAll(initialUserReferralsState, loadedReferrals);
+      },
+      providesTags: (result: any) => {
+        if (result?.ids) {
+          return [
+            { type: 'UserReferral', id: 'USER-REFERRAL-LIST' },
+            ...result.ids.map((id: string) => ({ type: 'UserReferral', id })),
+          ];
+        } else return [{ type: 'UserReferral', id: 'USER-REFERRAL-LIST' }];
+      },
+    //   providesTags: (result, _error, user) => {
+    //     console.log('result: ', result);
+    //     const tags = result.map((referral: ReferralProps) => {
+    //         return {type: 'Referral', id: referral.id}
+    //     });
+    //     tags.push({type: 'UsersReferrals', id: user.id});
+    //     return tags;
+    // }
+  }),
     addNewReferral: builder.mutation({
       query: initialReferralData => ({
         url: '/referrals',
@@ -82,6 +118,7 @@ export const referralsApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetReferralsQuery,
+  useGetReferralsByUserQuery,
   useAddNewReferralMutation,
   useUpdateReferralMutation,
   useDeleteReferralMutation

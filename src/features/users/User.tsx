@@ -16,6 +16,8 @@ const User = (props: {userId: string}) => {
     if (user) {
         const handleEdit = () => navigate(`/dash/users/${props.userId}`)
 
+        const handleUserNameLink = () => navigate(`/dash/referrals/user/${props.userId}`)
+
         const userRolesString = user.roles.toString().replaceAll(',', ', ')
 
         const cellStatus = user.active ? '' : 'table__cell--inactive'
@@ -23,7 +25,9 @@ const User = (props: {userId: string}) => {
         return (
             <tr className={`${cellStatus} bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600`}>
                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {user.username}
+                    <span onClick={handleUserNameLink}>
+                        {user.username}
+                    </span>
                 </th>
                 <td className={`${cellStatus} px-6 py-4`}>
                     {userRolesString}

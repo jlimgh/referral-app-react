@@ -18,6 +18,7 @@ import { ROLES } from './config/roles';
 import useTitle from './hooks/useTitle';
 import { initFlowbite } from 'flowbite'
 import { useEffect } from "react";
+import UserReferralsList from './features/referrals/UserReferralsList';
 
 function App() {
   
@@ -51,6 +52,7 @@ function App() {
                   <Route index element={<ReferralsList />} />
                   <Route path=":id" element={<EditReferral />} />
                   <Route path="new" element={<NewReferral />} />
+                  <Route path="user/:id" element={<UserReferralsList />} />
                 </Route>
               </Route> {/* End Dash */}
             </Route>
