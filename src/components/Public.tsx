@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { useAddNewSignupEmailMutation } from "../features/public/publicApiSlice";
 import { SetStateAction, useEffect, useState } from "react";
 import PulseLoader from "react-spinners/PulseLoader";
+import { Toast } from 'flowbite-react';
+import { FaTelegramPlane } from 'react-icons/fa';
 
 const Public = () => {
     const [addNewSignupEmail, {
@@ -12,11 +14,16 @@ const Public = () => {
     }] = useAddNewSignupEmailMutation()
 
     const [email, setEmail] = useState('')
+    const [toast, setToast] = useState(false);
 
     useEffect(() => {
         if (isSuccess) {
             console.log('success email sent')
             setEmail('')
+            setToast(true);
+            setTimeout(()=> {
+                setToast(false);
+            }, 2000)
         }
 
     }, [isSuccess])
@@ -38,11 +45,31 @@ const Public = () => {
     if (isError && error && 'data' in error) {
         errorMsg = (error.data as { message: string }).message
     }
-
-    ``
     
-    let signupButtonLabel = isLoading ? <PulseLoader color={"#FFF"} /> : 'Sign up'
+    let signupButtonLabel = isLoading ? <PulseLoader color={"#FFF"} size={7}/> : 'Sign up'
 
+    let successfulSignupToastContent = (
+        <div className="fixed w-full top items-center justify-center flex z-50 bg-opacity-100 transition ease-in-out delay-150">
+            <Toast>
+                <FaTelegramPlane className="h-5 w-5 text-cyan-600 dark:text-cyan-500" />
+                <div className="pl-4 text-sm font-normal">Message sent successfully.</div>
+            </Toast>
+        </div>
+        // <div className="fixed flex justify-center items-center w-full p-4 bottom-5">
+        //     <div className="max-w-xs bg-white border rounded-md shadow-lg">
+        //         <div className="flex p-4">
+        //             <svg className="w-5 h-5 text-blue-600 dark:text-blue-500 rotate-45" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+        //                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m9 17 8 2L9 1 1 19l8-2Zm0 0V9"/>
+        //             </svg>
+        //             <div className="ml-3">
+        //                 <p className="text-sm text-gray-700">
+        //                     message
+        //                 </p>
+        //             </div>
+        //         </div>
+        //     </div>
+        // </div>
+    )
 
     const content = (
         // <section className="public">
@@ -59,7 +86,8 @@ const Public = () => {
         //         <Link to="/login">Referrer Login</Link>
         //     </footer>
         // </section>
-        
+        <>
+        { toast && successfulSignupToastContent }
         <section className="bg-white dark:bg-gray-900">
             <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 z-10 relative">
                 <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Incentivized Referrals Tracker</h1>
@@ -155,6 +183,7 @@ const Public = () => {
                 </div>
             </footer>
         </section>
+        </>
 
     )
     return content
