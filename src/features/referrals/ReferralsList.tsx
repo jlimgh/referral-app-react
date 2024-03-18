@@ -32,14 +32,26 @@ const ReferralsList = () => {
     if (isSuccess) {
         const { ids, entities } = referrals
 
-        let filteredIds
+        let filteredReferral
         if (isManager || isAdmin) {
-            filteredIds = [...ids]
+            filteredReferral = [...ids].map((id: string) => {
+                return {
+                    referralId: id,
+                    userId: entities[id].user
+                }
+            })
         } else {
-            filteredIds = ids.filter((referralId: string) => entities[referralId].username === username)
+            filteredReferral = ids
+                .filter((referralId: string) => entities[referralId].username === username)
+                .map((id: string) => {
+                    return {
+                        referralId: id,
+                        userId: entities[id].user
+                    }
+                })
         }
 
-        const tableContent = ids?.length && filteredIds.map((referralId: string) => <Referral key={referralId} referralId={referralId} />)
+        const tableContent = ids?.length && filteredReferral.map((referral: {referralId: string, userId: string}) => <Referral key={referral.referralId} referralId={referral.referralId} userId={referral.userId} />)
 
         content = (
             <>

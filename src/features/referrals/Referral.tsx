@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useGetReferralsQuery } from './referralsApiSlice'
 import { memo } from 'react'
 
-const Referral = (props: {referralId: string}) => {
+const Referral = (props: {referralId: string, userId: string}) => {
 
     const { referral } = useGetReferralsQuery("referralsList", {
         selectFromResult: ({ data }) => ({
@@ -20,6 +20,8 @@ const Referral = (props: {referralId: string}) => {
 
         const handleEdit = () => navigate(`/dash/referrals/${props.referralId}`)
 
+        const handleUserNameLink = () => navigate(`/dash/referrals/user/${props.userId}`)
+
         return (
             <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -31,7 +33,11 @@ const Referral = (props: {referralId: string}) => {
                 <td className="px-6 py-4">{created}</td>
                 <td className="px-6 py-4">{updated}</td>
                 <td className="px-6 py-4">{referral.title}</td>
-                <td className="px-6 py-4">{referral.username}</td>
+                <td className="px-6 py-4">
+                    <span onClick={handleUserNameLink}>
+                        {referral.username}
+                    </span>
+                </td>
                 <td className="px-6 py-4">
                     <span className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer"
                           onClick={handleEdit}>Edit</span>

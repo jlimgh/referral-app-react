@@ -38,6 +38,7 @@ const UserReferralsList = () => {
 
         let filteredIds = [...ids]
         const referralOwnerUsername = ids.length ? entities[ids[0]].username : null
+        const referralUserId = entities[ids[0]].user;
 
         if (!isManager && !isAdmin) {
             if (referralOwnerUsername !== username) {
@@ -50,7 +51,7 @@ const UserReferralsList = () => {
         //     filteredIds = ids.filter((referralId: string) => entities[referralId].username === username)
         // }
 
-        const tableContent = ids?.length && filteredIds.map((referralId: string) => <Referral key={referralId} referralId={referralId} />)
+        const tableContent = ids?.length && filteredIds.map((referralId: string) => <Referral key={referralId} referralId={referralId} userId={referralUserId} />)
 
         content = (
             <>
